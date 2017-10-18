@@ -1,8 +1,7 @@
 # gitnoob
 
-gitnoob is just a small layer of abrstraction for the most used git tasks.
-It helps adopting good practices and pushing clean code
-features, while reducting the number of commands needed to push code.
+gitnoob is just a small layer of abstraction for the most used git tasks.
+It helps adopting good practices and pushing clean code, while reducting the number of commands needed to push code.
 (Note : you can still use git commands directly if you want)
 
 Using gitnoobs commands basically :
