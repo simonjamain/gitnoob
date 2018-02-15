@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'optparse'
 require 'colorize'
 # helps adopting good practices and pushing clean code
