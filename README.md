@@ -12,7 +12,21 @@ Using gitnoobs commands basically :
 - maintain a clean structure in dev and master
 
 to get a list of available commands, use the -h argument.
+## installation
+first you have to have ruby installed.
+Move the repository to a place you like, then you can run the install script (from the gitnoob folder) to add a symbolic link to the script in the `/bin` folder
 
+```
+chmod a+x install.sh
+./install.sh
+```
+
+if you want helpfull short aliases to be added you can also execute the addaliases script (still from the gitnoob folder)
+
+```
+chmod a+x ./addaliases.sh
+source addaliases.sh
+```
 ## Understanding gitnoob
 Here is the simple concept of gitnoob workflow :
 The *master* branch hold your releases, the *dev* branch always contain a potentially releasable version of your code, and you are forced to create a *feature* branch if you wanna work.
