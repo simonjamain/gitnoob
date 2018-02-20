@@ -27,6 +27,14 @@ if you want helpfull short aliases to be added you can also execute the addalias
 chmod a+x ./addaliases.sh
 source addaliases.sh
 ```
+### prepare your repository
+(here is a list of all the steps from nothing but you should pickup from where you actually are, you might already have a compatible repository)
+- build a new repository with `git init`
+- add your remote with `git remote add origin https://github.com/user/repo.git`
+- create the `dev` branch with `git init` git checkout -b dev
+- push all your branches with `git push --all origin`
+(if you already have a compatible architecture, make sure you are on the `dev` branch before starting using gitnoob)
+
 ## Understanding gitnoob
 Here is the simple concept of gitnoob workflow :
 The *master* branch hold your releases, the *dev* branch always contain a potentially releasable version of your code, and you are forced to create a *feature* branch if you wanna work.
@@ -48,6 +56,7 @@ Feature branches are the right place to code, **"feature-"**  automatically prep
 
 *Note : feature branches are automatically sync with origin (online) for collaboration purposes but you can branch locally from a feature branch if you want to, with the native git commands.*
 
-## dicussion
+## dicussion / improvements
 
+- add a basic init function that create the repository, add a remote and sets up all the needed branches to start a project fast
 - we might consider removing the dev branch as the code here is supposed to be ready to deploy. It looks like it could be simplified.
