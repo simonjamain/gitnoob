@@ -66,7 +66,7 @@ def optionPrune
   # check if working directory clean
   error(isWorkingDirectoryClean, 'Working directory is not clean')
   # test your modifications with the changes of the reference branch
-  error(system('git fetch'), 'Error fetching from origin')
+  error(system('git pull'), 'Error pulling from origin')
   error(system("git merge #{REFERENCE_BRANCH_NAME} -m \"Applying finished feature #{CURRENT_BRANCH}\""), 'Error merging')
   error(system('rake test'), 'The tests are not passing, please fix and try again')
   # apply your modifications and remove the feature branch
