@@ -56,10 +56,6 @@ def isCurrentBranchReferenceBranch
   CURRENT_BRANCH == REFERENCE_BRANCH_NAME
 end
 
-def isBranchOnlyLocal
-  #TODO: also check if it descends directly from REFERENCE_BRANCH_NAME branch
-  CURRENT_BRANCH.start_with?(FEATURE_COMMIT_PREFIX)
-end
 #-------------- END HELPERS ----------------
 
 #-------------- START OPTIONS LOGIC ----------------
@@ -101,6 +97,7 @@ def optionFeature
     error(isfeatureNameValid(name), "Feature name is invalid (#{name}), it should not start with #{FEATURE_COMMIT_PREFIX}")
     # create the new branch with an appropriate name
     error(system("git checkout -b #{generateFullFeatureBranchName(name)}"), 'Failed to create branch')
+    error(system("git push"), 'Failed to push branch')
   end
   
   # ensure that we are on reference branch NOTE: should we try to checkout reference branch?
