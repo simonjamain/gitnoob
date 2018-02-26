@@ -81,8 +81,10 @@ end
 def optionUpdate#check if working directory clean?
   # check if current branch is a feature 
   error(isCurrentBranchFeature, 'You cannot update something else than a feature branch')
+  # integrate changes from the remote same feature first
+  error(system("git pull"), 'Error pulling changes from remote')
   # integrate changes from the reference branch
-  error(system("git rebase #{REFERENCE_BRANCH_NAME}"), 'Error rebasing')
+  error(system("git merge #{REFERENCE_BRANCH_NAME} -m \"feature updated with #{REFERENCE_BRANCH_NAME} changes\""), 'Error merging, abort it or fix the issues')
   
   success "Feature successfully updated with #{REFERENCE_BRANCH_NAME} changes"
 end
