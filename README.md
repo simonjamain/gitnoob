@@ -60,5 +60,6 @@ Feature branches are the right place to code, **"feature-"**  automatically prep
 
 - todo: ask if feature branches should be pushed on creation and deleted on the remote on deletion (if present on remote)
 - todo: run system tests before creating a new version ?
-- add a basic init function that create the repository, add a remote and sets up all the needed branches to start a project fast
+- todo: chose how to use remotes on features (if tracked maybe auto fetch and push)
+- add a basic init function that create the repository (done), add a remote and sets up all the needed branches to start a project fast
 - we might consider removing the dev branch as the code here is supposed to be ready to deploy. It looks like it could be simplified.
