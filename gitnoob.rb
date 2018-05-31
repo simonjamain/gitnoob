@@ -56,17 +56,40 @@ def isCurrentBranchReferenceBranch
   CURRENT_BRANCH == REFERENCE_BRANCH_NAME
 end
 
+def isCurrentDirectoryAGitRepository
+  system("[ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1")
+end
 #-------------- END HELPERS ----------------
 
 #-------------- START OPTIONS LOGIC ----------------
+
+def optionInit
+  
+  # create repo if needed
+  if(isCurrentDirectoryAGitRepository)
+    error(isWorkingDirectoryClean, 'Working directory is not clean')
+  else
+    error(system("git init"), 'failed to create repository')
+  end
+  
+  # create branches
+  error(system("git checkout master"), 'failed to create repository')
+  error(system("git branch #{REFERENCE_BRANCH_NAME}"), 'failed to create repository')
+  error(system("git checkout #{REFERENCE_BRANCH_NAME}"), 'failed to create repository')
+  
+  success "Gitnoob is ready to be used"
+end
 
 def optionPrune
   # check if current branch is a feature 
   error(isCurrentBranchFeature, 'You cannot commit from something else than a feature branch')
   # check if working directory clean
   error(isWorkingDirectoryClean, 'Working directory is not clean')
+  # update the reference branch
+  error(system("git checkout #{REFERENCE_BRANCH_NAME}"), "Failed to checkout #{REFERENCE_BRANCH_NAME}")
+  error(system('git pull'), "Error pulling changes on #{REFERENCE_BRANCH_NAME}")
   # test your modifications with the changes of the reference branch
-  error(system('git pull'), 'Error pulling from origin')
+  error(system("git checkout #{CURRENT_BRANCH}"), "Failed to checkout #{CURRENT_BRANCH}")
   error(system("git merge #{REFERENCE_BRANCH_NAME} -m \"Applying finished feature #{CURRENT_BRANCH}\""), 'Error merging')
   error(system('rake test'), 'The tests are not passing, please fix and try again')
   # apply your modifications and remove the feature branch
@@ -99,15 +122,14 @@ def optionFeature
     error(isfeatureNameValid(name), "Feature name is invalid (#{name}), it should not start with #{FEATURE_COMMIT_PREFIX}")
     # create the new branch with an appropriate name
     error(system("git checkout -b #{generateFullFeatureBranchName(name)}"), 'Failed to create branch')
-    error(system("git push"), 'Failed to push branch')
   end
   
   # ensure that we are on reference branch NOTE: should we try to checkout reference branch?
   error(CURRENT_BRANCH == REFERENCE_BRANCH_NAME, "Feature must branch from #{REFERENCE_BRANCH_NAME} (currently #{CURRENT_BRANCH})")
   # check if working directory clean
   error(isWorkingDirectoryClean, 'Working directory is not clean')
-  # fetching changes
-  error(system('git fetch'), 'Error fetching from origin')
+  # update remotes
+  error(system('git remote update'), 'Error updating remotes')
       
   branches = `git for-each-ref --format='%(refname)' refs/heads/`.to_s.split("\n")
   featureBranches = branches.select{|branchName| branchName.start_with?('refs/heads/feature-')}
@@ -192,6 +214,11 @@ end
 #-------------- END OPTIONS LOGIC ----------------
 optionParser = OptionParser.new do|options|
 
+  options.on('-i', '--init', 'create necessary branches for gitnoob, create the local repo if necessary. If repo exists, it should be "empty"') do
+    optionInit
+    exit
+  end
+  
   options.on('-p', '--prune', 'Try to merge and push the current branch into the reference branch (! the feature branch get deleted after this operation)') do# check if working directory clean
     optionPrune
     exit
