@@ -1,3 +1,8 @@
+# Disclaimer
+
+Yes I reinvented something that was already there [git flow](https://www.atlassian.com/fr/git/tutorials/comparing-workflows/gitflow-workflow).
+Just use git flow ;)
+
 # gitnoob
 
 gitnoob is just a small layer of abstraction for the most used git tasks.
